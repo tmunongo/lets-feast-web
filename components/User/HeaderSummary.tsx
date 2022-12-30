@@ -38,7 +38,7 @@ const HeaderSummary = (props: Props) => {
             </button>
             <span className="rounded-full overflow-hidden">
               <Image
-                src={session.user!.image}
+                src={session.user!.image!}
                 alt="user"
                 width={40}
                 height={40}
