@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import Footer from "./Footer";
 import HeaderBar from "./HeaderBar";
-import Sidebar from "./Sidebar";
+import Sidebar from "./SideBars/Sidebar";
 
 type Props = {
   children: ReactElement;

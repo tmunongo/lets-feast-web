@@ -1,9 +1,16 @@
-import { Inter } from "@next/font/google";
+import { Recipe } from "@prisma/client";
+import { GetServerSidePropsContext } from "next";
+import { unstable_getServerSession as getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
+import client from "../lib/prismadb";
+import { authOptions } from "./api/auth/[...nextauth]";
 
-const inter = Inter({ subsets: ["latin"] });
+// import { authOptions } from "./api/auth/[...nextauth]"
 
-export default function Home() {
+export default function Home(recipes: Recipe[]) {
+  const { data: session } = useSession();
+  console.log(recipes);
   return (
     <>
       <Head>
@@ -20,3 +27,25 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  // console.log(req, res, context);
+  // const session = await getSession({ req: req.req });
+  if (!session) {
+    console.log("You are not logged in");
+  }
+  const recipes = await client.recipe.findMany({
+    where: {
+      authorId: session.user!.id,
+    },
+  });
+  // res.status(200).json({ recipes: recipes });
+  return {
+    props: {
+      recipes,
+    },
+  };
+};

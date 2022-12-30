@@ -62,18 +62,18 @@ model User {
 
 // recipe model
 model Recipe {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
   ingredients String[]
   directions  String
   image       String
   category    String
-  prepTime    String
-  isFavorite  Boolean  @default(false)
-  author      User     @relation(fields: [authorId], references: [id])
+  prepTime    Int
+  isFavorite  Boolean   @default(false)
+  author      User      @relation(fields: [authorId], references: [id])
   authorId    String
-  plan        MealPlan @relation(fields: [planId], references: [id])
-  planId      String
+  plan        MealPlan? @relation(fields: [planId], references: [id])
+  planId      String?
 }
 
 // meal plan model
