@@ -15,7 +15,7 @@ const Wrapper = ({ children }: Props) => {
       </div>
       <div className="flex items-center justify-center w-screen h-screen">
         <Sidebar />
-        <div className="w-11/12 md:4/5">{children}</div>
+        <div className="w-11/12 md:4/5 h-full">{children}</div>
       </div>
       <div className="w-full">
         <Footer />

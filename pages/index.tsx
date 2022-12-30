@@ -1,7 +1,13 @@
 // import { GetServerSidePropsContext } from "next";
 // import { unstable_getServerSession } from "next-auth";
+import { Recipe } from "@prisma/client";
+import { GetServerSidePropsContext } from "next";
+import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import RecipeMain from "../components/Recipe/RecipeMain";
+import client from "../lib/prismadb";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 // import { authOptions } from "./api/auth/[...nextauth]"
 
@@ -19,45 +25,43 @@ export default function Home(recipes: any) {
       </Head>
       <main className="">
         <div className="flex flex-col items-center justify-start w-full min-h-full">
-          {/* {recipes.recipes.map((item: Recipe, index: number) => {
+          {recipes.recipes.map((item: Recipe, index: number) => {
             return (
               <>
                 <RecipeMain recipe={item} key={index} />
-                <Horizontal />
               </>
             );
-          })} */}
+          })}
         </div>
       </main>
     </>
   );
 }
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const session = await unstable_getServerSession(
-//     context.req,
-//     context.res,
-//     authOptions
-//   );
-//   // const session = await getSession(context);
-//   console.log("Session: ", session);
-//   // console.log(req, res, context);
-//   // const session = await getSession({ req: req.req });
-//   if (!session || !session.user) {
-//     return;
-//   }
-//   const user = await client.user.findUnique({
-//     where: { email: session.user.email! },
-//   });
-//   console.log(user);
-//   let recipes = await client.recipe.findMany({
-//     where: {
-//       authorId: user!.id,
-//     },
-//   });
-//   return {
-//     props: {
-//       recipes,
-//     },
-//   };
-// }
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  if (!session || !session.user) {
+    return {
+      props: {
+        errorMessage: "You must be logged in",
+      },
+    };
+  }
+  const user = await client.user.findUnique({
+    where: { email: session.user.email! },
+  });
+  let recipes = await client.recipe.findMany({
+    where: {
+      authorId: user!.id,
+    },
+  });
+  return {
+    props: {
+      recipes,
+    },
+  };
+}

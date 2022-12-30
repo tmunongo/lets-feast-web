@@ -37,7 +37,7 @@ const Sidebar = (props: Props) => {
               <span className="hidden md:block">Home</span>
             </li>
           </Link>
-          <Link href="/recipes/new">
+          <Link href="/recipe/new">
             <li className="flex items-center justify-center md:justify-around w-full py-2">
               <span>
                 <TfiWrite size={25} />

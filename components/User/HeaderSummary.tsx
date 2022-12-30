@@ -15,6 +15,13 @@ const HeaderSummary = (props: Props) => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  const handleLogout = () => {
+    signOut();
+    return {
+      redirect: "/login",
+      permanent: "false",
+    };
+  };
   return (
     <div className="flex items-center justify-around">
       <div className="w-1/4`">
@@ -31,7 +38,7 @@ const HeaderSummary = (props: Props) => {
         {session ? (
           <div className="flex items-center justify-around">
             <button
-              onClick={() => signOut()}
+              onClick={() => handleLogout()}
               className="bg-button-light dark:bg-button-dark text-button-light-text dark:text-button-dark-text p-1 rounded-md"
             >
               <BiPowerOff size={25} />
