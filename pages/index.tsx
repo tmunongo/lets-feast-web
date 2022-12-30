@@ -48,7 +48,7 @@ export const getServerSideProps = async (
   }
   let recipes = await client.recipe.findMany({
     where: {
-      authorId: session.user!.id,
+      authorId: session!.user!.id,
     },
   });
   return {
