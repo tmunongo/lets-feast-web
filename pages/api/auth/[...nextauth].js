@@ -14,8 +14,8 @@ export const authOptions = {
       //   return {
       //     id: profile.id,
       //     name: profile.displayName,
-      //     email: profile.emails[0].value,
-      //     picture: profile.photos[0].value,
+      //     email: profile.email,
+      //     picture: profile.photos,
       //   };
       // },
     }),

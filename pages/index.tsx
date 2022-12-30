@@ -1,18 +1,17 @@
 import { Recipe } from "@prisma/client";
-import { GetServerSidePropsContext } from "next";
-import { unstable_getServerSession as getServerSession } from "next-auth";
+// import { GetServerSidePropsContext } from "next";
+// import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Horizontal from "../components/Dividers/Horizontal";
 import RecipeMain from "../components/Recipe/RecipeMain";
-import client from "../lib/prismadb";
-import { authOptions } from "./api/auth/[...nextauth]";
 
 // import { authOptions } from "./api/auth/[...nextauth]"
 
 export default function Home(recipes: any) {
   const { data: session } = useSession();
-  // console.log(recipes.toString());
+  console.log(session);
+
   return (
     <>
       <Head>
@@ -37,23 +36,31 @@ export default function Home(recipes: any) {
   );
 }
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  // console.log(req, res, context);
-  // const session = await getSession({ req: req.req });
-  if (!session) {
-    console.log("You are not logged in");
-  }
-  let recipes = await client.recipe.findMany({
-    where: {
-      authorId: session!.user!.id,
-    },
-  });
-  return {
-    props: {
-      recipes,
-    },
-  };
-};
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const session = await unstable_getServerSession(
+//     context.req,
+//     context.res,
+//     authOptions
+//   );
+//   // const session = await getSession(context);
+//   console.log("Session: ", session);
+//   // console.log(req, res, context);
+//   // const session = await getSession({ req: req.req });
+//   if (!session || !session.user) {
+//     return;
+//   }
+//   const user = await client.user.findUnique({
+//     where: { email: session.user.email! },
+//   });
+//   console.log(user);
+//   let recipes = await client.recipe.findMany({
+//     where: {
+//       authorId: user!.id,
+//     },
+//   });
+//   return {
+//     props: {
+//       recipes,
+//     },
+//   };
+// }
