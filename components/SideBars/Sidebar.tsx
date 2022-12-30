@@ -37,7 +37,7 @@ const Sidebar = (props: Props) => {
               <span className="hidden md:block">Home</span>
             </li>
           </Link>
-          <Link href="/">
+          <Link href="/recipes/new">
             <li className="flex items-center justify-center md:justify-around w-full py-2">
               <span>
                 <TfiWrite size={25} />
@@ -45,7 +45,7 @@ const Sidebar = (props: Props) => {
               <span className="hidden md:block">New</span>
             </li>
           </Link>
-          <Link href="/">
+          <Link href="/profile">
             <li className="flex items-center justify-center md:justify-around w-full py-2">
               <span>
                 <BsFillPersonFill size={25} />
