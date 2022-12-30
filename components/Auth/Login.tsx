@@ -13,8 +13,16 @@ const Login = (props: Props) => {
       </Head>
       <main>
         <div className="block mx-auto w-screen md:w-[50vw] h-screen p-4 bg-bg-light-secondary dark:bg-bg-dark-secondary text-text-light-secondary dark:text-text-dark-secondary shadow-md">
-          {/* <!-- component --> */}
-          {/* <!-- This is an example component --> */}
+          <div className="flex flex-col items-center justify-around text-center">
+            <h3 className="text-xl font-semibold">
+              Welcome to Let&apos;s Feast 🥘
+            </h3>
+            <p className="my-4">
+              Let&apos;s Feast is a place for you to store all your favorite
+              recipes, with features specially designed for you to organize and
+              find your recipes faster! ⏰
+            </p>
+          </div>
           <div className="w-full text-bg-light-secondary dark:text-text-dark-primary">
             <label
               htmlFor="input-group-1"
@@ -42,7 +50,7 @@ const Login = (props: Props) => {
               />
             </div>
             <Button>Proceed with Email</Button>
-            <p className="mt-2 mb-6">
+            <p className="mt-2 mb-6 text-text-light-secondary dark:text-text-dark-secondary ">
               This is magic link authentication. A link will be sent to your
               email to log you in.
             </p>

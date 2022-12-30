@@ -13,7 +13,6 @@ import { authOptions } from "./api/auth/[...nextauth]";
 
 export default function Home(recipes: any) {
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <>

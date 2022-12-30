@@ -12,7 +12,6 @@ const Sidebar = (props: Props) => {
   const [nav, setNav] = useState<boolean>(false);
 
   const handleNav = () => {
-    console.log(nav);
     setNav(nav ? false : true);
   };
   return (
@@ -21,7 +20,7 @@ const Sidebar = (props: Props) => {
       <div className="w-1/5 md:w-1/4 h-full p-2">
         <ul>
           <li className="flex items-center justify-center md:justify-around w-full pb-4">
-            <span>
+            <span className="cursor-pointer">
               <AiOutlineMenu
                 className="text-button-light dark:text-button-dark"
                 size={25}
