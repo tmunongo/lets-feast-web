@@ -1,10 +1,7 @@
-import { Recipe } from "@prisma/client";
 // import { GetServerSidePropsContext } from "next";
 // import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import Horizontal from "../components/Dividers/Horizontal";
-import RecipeMain from "../components/Recipe/RecipeMain";
 
 // import { authOptions } from "./api/auth/[...nextauth]"
 
@@ -22,14 +19,14 @@ export default function Home(recipes: any) {
       </Head>
       <main className="">
         <div className="flex flex-col items-center justify-start w-full min-h-full">
-          {recipes.recipes.map((item: Recipe, index: number) => {
+          {/* {recipes.recipes.map((item: Recipe, index: number) => {
             return (
               <>
                 <RecipeMain recipe={item} key={index} />
                 <Horizontal />
               </>
             );
-          })}
+          })} */}
         </div>
       </main>
     </>
