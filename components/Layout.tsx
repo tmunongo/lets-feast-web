@@ -14,7 +14,6 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const { data: session } = useSession();
 
-  console.log(session);
   if (!session) {
     return <Login />;
   }
@@ -29,22 +28,5 @@ const Layout = ({ children }: Props) => {
     </>
   );
 };
-
-// export const getServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const session = await getServerSession(context.req, context.res, authOptions);
-//   // console.log(req, res, context);
-//   // const session = await getSession({ req: req.req });
-//   if (!session) {
-//     console.log("You are not logged in");
-//   }
-
-//   return {
-//     props: {
-//       session
-//     },
-//   };
-// };
 
 export default Layout;
