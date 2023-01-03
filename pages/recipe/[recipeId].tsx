@@ -1,4 +1,5 @@
 import { Recipe } from "@prisma/client";
+import Head from "next/head";
 import RecipeFull from "../../components/Recipe/RecipeFull";
 import client from "../../lib/prismadb";
 
@@ -8,9 +9,16 @@ type Props = {
 
 const RecipePage = ({ recipe }: Props) => {
   return (
-    <div className="w-full h-full">
-      <RecipeFull recipe={recipe} />
-    </div>
+    <>
+      <Head>
+        <title>{recipe.name} | Let&apos;s Feast</title>
+      </Head>
+      <main>
+        <div className="w-full h-full">
+          <RecipeFull recipe={recipe} />
+        </div>
+      </main>
+    </>
   );
 };
 

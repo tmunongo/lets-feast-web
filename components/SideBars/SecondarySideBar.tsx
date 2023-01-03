@@ -12,7 +12,7 @@ const SecondarySideBar = (props: Props) => {
   return (
     <>
       {nav ? (
-        <div className="absolute left-[18%] md:left-[21%] bg-bg-light-primary dark:bg-bg-dark-primary top-16 h-screen w-2/3 md:w-1/3 p-2 border-l border-l-button-light dark:border-l-button-dark transition-all duration-500">
+        <div className="absolute left-[18%] z-10 md:left-[21%] bg-bg-light-tertiary dark:bg-bg-dark-tertiary top-16 h-screen w-2/3 md:w-1/3 p-2 border-l-button-light dark:border-l-button-dark transition-all duration-500">
           <ul>
             <Link href="/">
               <li className="flex items-center justify-around w-full py-2">
@@ -22,7 +22,7 @@ const SecondarySideBar = (props: Props) => {
                     size={25}
                   />
                 </span>
-                <span className="block">Meal Plans</span>
+                <span className="block">Favorites</span>
               </li>
             </Link>
             <Link href="/">

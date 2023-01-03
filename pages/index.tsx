@@ -5,13 +5,18 @@ import { GetServerSidePropsContext } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import Link from "next/link";
+import NoRecipes from "../components/Recipe/NoRecipes";
 import RecipeMain from "../components/Recipe/RecipeMain";
+import SampleRecipeMain from "../components/Recipe/SampleRecipeMain";
 import client from "../lib/prismadb";
+import Sample from "../lib/sample";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 // import { authOptions } from "./api/auth/[...nextauth]"
 
 export default function Home(recipes: any) {
+  // console.log(Sample);
   const { data: session } = useSession();
 
   return (
@@ -23,15 +28,24 @@ export default function Home(recipes: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="">
-        <div className="flex flex-col items-center justify-start w-full min-h-full">
-          {recipes.recipes.map((item: Recipe, index: number) => {
-            return (
-              <>
-                <RecipeMain recipe={item} key={index} />
-              </>
-            );
-          })}
-        </div>
+        {recipes.length > 0 ? (
+          <div className="flex flex-col items-center justify-start w-full min-h-full">
+            {recipes.recipes.map((item: Recipe, index: number) => {
+              return (
+                <>
+                  <RecipeMain recipe={item} key={index} />
+                </>
+              );
+            })}
+          </div>
+        ) : (
+          <>
+            <NoRecipes />
+            <Link href="/intro">
+              <SampleRecipeMain recipe={Sample} />
+            </Link>
+          </>
+        )}
       </main>
     </>
   );

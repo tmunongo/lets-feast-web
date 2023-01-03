@@ -1,4 +1,5 @@
 import Head from "next/head";
+import RecipeForm from "../../components/Recipe/RecipeForm";
 
 type Props = {};
 
@@ -13,7 +14,7 @@ const New = (props: Props) => {
       </Head>
       <main>
         <div>
-          <p>You will be able to create a new recipe here</p>
+          <RecipeForm />
         </div>
       </main>
     </>

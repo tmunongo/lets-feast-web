@@ -8,7 +8,6 @@ import Wrapper from "./Wrapper";
 
 type Props = {
   children: ReactElement;
-  // session: Session;
 };
 
 const Layout = ({ children }: Props) => {

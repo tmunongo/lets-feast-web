@@ -1,13 +1,12 @@
 import { Recipe } from "@prisma/client";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import RecipeActions from "./RecipeActions";
 
 type Props = {
   recipe: Recipe;
 };
 
-const RecipeFull = ({ recipe }: Props) => {
+const SampleRecipeFull = ({ recipe }: Props) => {
   console.log(recipe);
   return (
     <div className="flex flex-col items-start justify-start">
@@ -28,11 +27,8 @@ const RecipeFull = ({ recipe }: Props) => {
       <ReactMarkdown className="w-full lg:w-3/4">
         {recipe.directions}
       </ReactMarkdown>
-      <div className="w-full flex items-center my-1">
-        <RecipeActions id={recipe.id} />
-      </div>
     </div>
   );
 };
 
-export default RecipeFull;
+export default SampleRecipeFull;

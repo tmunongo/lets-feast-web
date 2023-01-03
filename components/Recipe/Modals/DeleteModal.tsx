@@ -25,14 +25,14 @@ const DeleteModal = ({ id, setIsOpen, isOpen }: Props) => {
   };
 
   return (
-    <div className="absolute w-full md:w-1/2 lg:w-1/3 top-[40%] dark:bg-bg-light-primary bg-bg-dark-primary rounded-md p-8">
-      <p>
+    <div className="absolute w-4/5 sm:w-full md:w-1/2 lg:w-1/3 top-[40%] dark:bg-bg-light-primary bg-bg-dark-primary text-text-dark-primary dark:text-text-light-primary rounded-md p-2 md:p-8 border-black">
+      <p className="">
         Are you sure you want to delete this recipe? This action cannot be
         reversed.
       </p>
       <div className="flex items-center">
         <button
-          className="border border-black w-1/2 bg-green-300"
+          className="border border-black w-1/2 text-black bg-green-300"
           onClick={() => setIsOpen(!isOpen)}
         >
           Return
