@@ -172,7 +172,7 @@ const RecipeForm = ({ recipe }: Props) => {
           encType="multipart/form-data"
           className="flex flex-col items-center md:items-start md:p-4"
         >
-          <div className="md:flex md:items-center mb-6 w-[100%]">
+          <div className="md:flex md:items-center mb-4 w-[100%]">
             <div className="md:w-1/3">
               <label
                 htmlFor="name"
@@ -194,7 +194,7 @@ const RecipeForm = ({ recipe }: Props) => {
           </div>
           <div
             id="ingredient-section"
-            className="md:flex md:items-center mb-6 w-[100%]"
+            className="md:flex md:items-center mb-4 w-[100%]"
           >
             <div className="md:w-1/3">
               <label
@@ -210,29 +210,29 @@ const RecipeForm = ({ recipe }: Props) => {
                   - {value}
                 </p>
               ))}
-              {/* {inputList.map((index: number) => {
-                return <Input key={inputList.length} />;
-              })} */}
               {inputList}
-              <div className="flex items-center justify-around w-3/4 mt-1">
+              <div className="flex items-center justify-around w-3/4 mt-1 ">
                 <button
                   type="button"
                   onClick={onAddBtnClick}
-                  className="bg-gray-300 px-2 py-1 rounded"
+                  className="bg-button-light dark:bg-button-dark px-2 py-1 rounded"
                 >
                   +
                 </button>
                 <button
                   type="button"
                   onClick={onRemoveBtnClick}
-                  className="bg-gray-300 px-2 py-1 rounded"
+                  className="bg-button-light dark:bg-button-dark px-2 py-1 rounded"
                 >
                   -
                 </button>
               </div>
+              {inputList.length === 0 && (
+                <p className="mt-2">Click &apos;+&apos; to add a new textbox</p>
+              )}
             </div>
           </div>
-          <div className="md:flex md:items-center mb-6 w-[100%]">
+          <div className="md:flex md:items-center mb-4 w-[100%]">
             <div className="md:w-1/3">
               <label
                 htmlFor="prepTime"
@@ -286,29 +286,18 @@ const RecipeForm = ({ recipe }: Props) => {
                 value={recipeValues.directions}
                 onChange={(value = "") => handleMDInput(value)}
                 className="md:p-2"
-                // height={300}
               />
-              {/* <MDEditor.Markdown
-                source={recipeValues.directions}
-                style={{ whiteSpace: "pre-wrap" }}
-              /> */}
-              {/* <input
-                // type="text"
-                id="directions"
-                name="directions"
-                value={recipeValues.directions}
-                className="border-black border-2 rounded-md ml-2 h-24 w-[600px]"
-                onChange={(event) => handleTextInput(event)}
-              /> */}
             </div>
           </div>
-          <input
-            className="p-2"
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <div className="w-full flex items-center justify-start overflow-hidden">
+            <input
+              className="p-1 w-full"
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+          </div>
           <button
             className="bg-button-light dark:bg-button-dark p-1 md:p-2 rounded-md"
             type="submit"
