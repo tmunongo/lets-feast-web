@@ -8,7 +8,6 @@ type Props = {};
 
 const SecondarySideBar = (props: Props) => {
   const nav = useContext(NavContext);
-  console.log(nav);
   return (
     <>
       {nav ? (

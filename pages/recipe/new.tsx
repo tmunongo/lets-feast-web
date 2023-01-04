@@ -12,8 +12,8 @@ const New = (props: Props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div>
+      <main className="w-full">
+        <div className="w-full">
           <RecipeForm />
         </div>
       </main>

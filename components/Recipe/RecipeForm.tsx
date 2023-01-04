@@ -1,7 +1,8 @@
 import { Recipe } from "@prisma/client";
-import axios from "axios";
 import "easymde/dist/easymde.min.css";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
+import Router from "next/router";
 import React, { FormEvent, useState } from "react";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -32,12 +33,18 @@ const RecipeForm = ({ recipe }: Props) => {
     image: recipe?.image || null,
   });
 
+  // handle change for the ingredient fields
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const updatedValues = [...ingredients!];
-    // updatedValues[event.target.name] = event.target.value;
-    // setIngredients(updatedValues);
+    const updatedValues = [...ingredients!];
+    updatedValues.push(event.target.value);
+    setIngredients(updatedValues);
+    setRecipeValues((prevRecipeValues) => ({
+      ...prevRecipeValues,
+      ingredients: [...ingredients, event.target.value],
+    }));
   };
 
+  // handle text input for various text only fields
   const handleTextInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     // event.preventDefault();
     setRecipeValues((prevRecipeValues) => ({
@@ -45,18 +52,24 @@ const RecipeForm = ({ recipe }: Props) => {
       [event.target.name]: event.target.value || "",
     }));
   };
+
+  // input component
   const Input = () => {
     return (
       <input
         name="ingredients"
+        type="text"
         className="rounded-md my-1 p-1"
-        placeholder="Ingredient"
-        value=""
-        onChange={(event) => handleChange(event)}
+        placeholder="Ingredients"
+        value={recipeValues.ingredients[ingredients.length]}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          handleChange(event)
+        }
       />
     );
   };
 
+  // handle inputting markdown text
   const handleMDInput = (content: string) => {
     // event.preventDefault();
     setRecipeValues((prevRecipeValues) => ({
@@ -65,47 +78,94 @@ const RecipeForm = ({ recipe }: Props) => {
     }));
   };
 
+  // get base 64 version of input file
+  const getBase64 = (file: File) => {
+    return new Promise<String>((resolve) => {
+      let fileInfo;
+      let baseURL = "";
+      // initialize file reader
+      let reader = new FileReader();
+      // convert the file to base64
+      reader.readAsDataURL(file);
+      // on reader load something
+      reader.onload = () => {
+        baseURL = String(reader.result);
+        resolve(baseURL);
+      };
+    });
+  };
   //handle file input
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     event.preventDefault();
     const file = event.target.files ? event.target.files[0] : null;
+    let file64: any;
+    if (file !== null) {
+      file64 = await getBase64(file);
+    }
     setRecipeValues((prevRecipeValues) => ({
       ...prevRecipeValues,
-      image: "",
+      image: file64,
     }));
   };
-
+  // button to add a text input field
   const onAddBtnClick = () => {
     setInputList(inputList.concat(<Input key={inputList.length} />));
   };
-
+  // button to remove a text input field
   const onRemoveBtnClick = () => {
     if (inputList.length > 0) {
-      //   inputList.slice(0, inputList.length - 1);
-      inputList.pop();
+      setInputList(inputList.slice(0, inputList.length - 1));
+      setIngredients(ingredients.slice(0, ingredients.length - 1));
+      setRecipeValues((prevRecipeValues) => ({
+        ...prevRecipeValues,
+        ingredients: prevRecipeValues.ingredients.slice(
+          0,
+          prevRecipeValues.ingredients.length - 1
+        ),
+      }));
     }
-    console.log(inputList.length);
-    // ingredients.pop;
   };
+
+  // get user session information
+  const { data: session } = useSession();
 
   // submission
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append("name", recipeValues.name);
-    // recipeValues.ingredients.forEach((element) => {
     formData.append("ingredients", JSON.stringify(recipeValues.ingredients));
     // });
     formData.append("category", recipeValues.category);
     formData.append("directions", recipeValues.directions);
     formData.append("prepTime", recipeValues.prepTime.toString());
+    formData.append("author", JSON.stringify(session));
     recipeValues.image && formData.append("image", recipeValues.image);
-    const response = await axios.post(`/api/recipe`, formData);
-    return response.data;
+    const recipe = {
+      name: formData.get("name"),
+      category: formData.get("category"),
+      directions: formData.get("directions"),
+      prepTime: formData.get("prepTime"),
+      ingredients: formData.get("ingredients"),
+      image: formData.get("image"),
+      author: formData.get("author"),
+    };
+    // let data = JSON.stringify(formData);
+    const response = await fetch(`/api/recipe`, {
+      method: "POST",
+      body: JSON.stringify(recipe),
+      redirect: "manual",
+    });
+
+    if (response.status === 200) {
+      Router.push("/");
+    }
   };
   return (
-    <div className="min-h-screen flex justify-center">
-      <div className="flex flex-col items-center justify-center h-2/3">
+    <div className="min-h-screen flex justify-center w-full">
+      <div className="flex flex-col items-center justify-center h-2/3 w-full lg:w-3/4">
         <h2 className="text-xl md:text-2xl mb-4">New Recipe</h2>
         <form
           onSubmit={(event) => handleSubmit(event)}
@@ -144,46 +204,32 @@ const RecipeForm = ({ recipe }: Props) => {
                 Ingredients
               </label>
             </div>
-            <div className="md:w-2/3">
+            <div className="md:w-2/3 flex flex-col items-start justify-start p-2">
               {recipeValues.ingredients.map((value, index) => (
                 <p key={index} className="border rounded px-2 py-1 mb-2">
-                  {value}
+                  - {value}
                 </p>
               ))}
-              {inputList.map((index: number) => {
-                <Input />;
-              })}
-              <button
-                type="button"
-                onClick={onAddBtnClick}
-                className="bg-gray-300 px-2 py-1 rounded"
-              >
-                Add Input
-              </button>
-              <button
-                type="button"
-                onClick={onRemoveBtnClick}
-                className="bg-gray-300 px-2 py-1 rounded"
-              >
-                Remove Input
-              </button>
-              {/* <MultipleValueTextInput
-                name="ingredients"
-                placeholder="Separate multiple values with a COMMA or ENTER"
-                className="border-black border-2 rounded-xl ml-2 p-1"
-                onItemAdded={(item, allItems) =>
-                  handleMultiInput(item, allItems)
-                }
-                onItemDeleted={(item, allItems) => console.log(`${item}`)}
-              /> */}
-              {/* <input
-                type="text"
-                name="ingredients"
-                placeholder="Ingredients"
-                value={recipeValues.ingredients}
-                className="border-black border-2 rounded-xl ml-2 p-1"
-                onChange={(event) => handleTextInput(event)}
-              /> */}
+              {/* {inputList.map((index: number) => {
+                return <Input key={inputList.length} />;
+              })} */}
+              {inputList}
+              <div className="flex items-center justify-around w-3/4 mt-1">
+                <button
+                  type="button"
+                  onClick={onAddBtnClick}
+                  className="bg-gray-300 px-2 py-1 rounded"
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={onRemoveBtnClick}
+                  className="bg-gray-300 px-2 py-1 rounded"
+                >
+                  -
+                </button>
+              </div>
             </div>
           </div>
           <div className="md:flex md:items-center mb-6 w-[100%]">

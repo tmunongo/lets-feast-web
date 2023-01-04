@@ -7,7 +7,6 @@ type Props = {
 };
 
 const SampleRecipeFull = ({ recipe }: Props) => {
-  console.log(recipe);
   return (
     <div className="flex flex-col items-start justify-start">
       <h2 className="text-2xl md:text-3xl mb-2">{recipe.name}</h2>

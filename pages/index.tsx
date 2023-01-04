@@ -16,7 +16,6 @@ import { authOptions } from "./api/auth/[...nextauth]";
 // import { authOptions } from "./api/auth/[...nextauth]"
 
 export default function Home(recipes: any) {
-  // console.log(Sample);
   const { data: session } = useSession();
 
   return (
@@ -28,7 +27,7 @@ export default function Home(recipes: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="">
-        {recipes.length > 0 ? (
+        {recipes.recipes.length > 0 ? (
           <div className="flex flex-col items-center justify-start w-full min-h-full">
             {recipes.recipes.map((item: Recipe, index: number) => {
               return (

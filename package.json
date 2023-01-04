@@ -24,6 +24,7 @@
     "@types/react-dom": "18.0.10",
     "@uiw/react-md-editor": "^3.20.2",
     "axios": "^1.2.2",
+    "cloudinary": "^1.33.0",
     "easymde": "^2.18.0",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
