@@ -56,8 +56,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  recipes       Recipe[]
-  mealPlans     MealPlan[]
+  MealPlan      MealPlan[]
+  Recipe        Recipe[]
 }
 
 // recipe model
