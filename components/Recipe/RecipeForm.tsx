@@ -19,18 +19,21 @@ interface RecipeData {
   category: string;
   prepTime: number;
   image: string | null;
+  id: string | null;
 }
 
 const RecipeForm = ({ recipe }: Props) => {
+  const [formType, setFormType] = useState(recipe ? "edit" : "create");
   const [inputList, setInputList] = useState<any>([]);
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [recipeValues, setRecipeValues] = useState<RecipeData>({
     name: recipe?.name || "",
-    category: recipe?.name || "",
+    category: recipe?.category || "",
     ingredients: recipe?.ingredients || [],
     prepTime: recipe?.prepTime || 0,
     directions: recipe?.directions || "",
     image: recipe?.image || null,
+    id: recipe?.id || "",
   });
 
   // handle change for the ingredient fields
@@ -142,8 +145,9 @@ const RecipeForm = ({ recipe }: Props) => {
     formData.append("directions", recipeValues.directions);
     formData.append("prepTime", recipeValues.prepTime.toString());
     formData.append("author", JSON.stringify(session));
+    formData.append("type", formType);
     recipeValues.image && formData.append("image", recipeValues.image);
-    const recipe = {
+    const recipeContent = {
       name: formData.get("name"),
       category: formData.get("category"),
       directions: formData.get("directions"),
@@ -151,11 +155,11 @@ const RecipeForm = ({ recipe }: Props) => {
       ingredients: formData.get("ingredients"),
       image: formData.get("image"),
       author: formData.get("author"),
+      id: recipe ? recipe.id : null,
     };
-    // let data = JSON.stringify(formData);
     const response = await fetch(`/api/recipe`, {
-      method: "POST",
-      body: JSON.stringify(recipe),
+      method: formType === "create" ? "POST" : "PUT",
+      body: JSON.stringify(recipeContent),
       redirect: "manual",
     });
 
@@ -298,6 +302,7 @@ const RecipeForm = ({ recipe }: Props) => {
               onChange={handleImageChange}
             />
           </div>
+          <input hidden type="text" name="type" defaultValue={formType} />
           <button
             className="bg-button-light dark:bg-button-dark p-1 md:p-2 rounded-md"
             type="submit"

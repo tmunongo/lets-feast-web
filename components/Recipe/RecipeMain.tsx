@@ -1,5 +1,8 @@
 import { Recipe } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Router from "next/router";
+import { FormEvent, useState } from "react";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ButtonAsLink from "../ButtonAsLink";
 import Horizontal from "../Dividers/Horizontal";
@@ -9,6 +12,29 @@ type Props = {
 };
 
 const RecipeMain = ({ recipe }: Props) => {
+  const [fav, setFav] = useState(recipe.isFavorite);
+  // get user session information
+  const { data: session } = useSession();
+
+  const handleFav = async (event: FormEvent) => {
+    event.preventDefault();
+    const favCont = {
+      fav: "yes",
+      author: JSON.stringify(session),
+      value: fav,
+      id: recipe ? recipe.id : null,
+    };
+
+    const response = await fetch("/api/recipe", {
+      method: "PUT",
+      body: JSON.stringify(favCont),
+      redirect: "manual",
+    });
+
+    if (response.status === 200) {
+      Router.push(Router.route);
+    }
+  };
   return (
     <>
       <div className="flex items-center justify-around w-[90%] my-4 h-52 shadow-md p-2">
@@ -38,9 +64,21 @@ const RecipeMain = ({ recipe }: Props) => {
             </ButtonAsLink>
             <div className="w-full flex items-center justify-end">
               {recipe.isFavorite ? (
-                <BsHeartFill size={25} />
+                <form onSubmit={(event) => handleFav(event)}>
+                  <button type="submit">
+                    <BsHeartFill
+                      size={25}
+                      type="submit"
+                      onClick={() => setFav(!fav)}
+                    />
+                  </button>
+                </form>
               ) : (
-                <BsHeart size={25} />
+                <form onSubmit={(event) => handleFav(event)}>
+                  <button type="submit">
+                    <BsHeart size={25} onClick={() => setFav(!fav)} />
+                  </button>
+                </form>
               )}
             </div>
           </div>
