@@ -16,7 +16,7 @@ const Sidebar = (props: Props) => {
   };
   return (
     <NavContext.Provider value={nav}>
-      <SecondarySideBar />
+      <SecondarySideBar setNav={setNav} />
       <div className="w-1/5 md:w-1/4 h-full p-2">
         <ul>
           <li className="flex items-center justify-center md:justify-around w-full pb-4">

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Router from "next/router";
 import { FormEvent, useState } from "react";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsClock, BsHeart, BsHeartFill, BsTag } from "react-icons/bs";
 import ButtonAsLink from "../ButtonAsLink";
 import Horizontal from "../Dividers/Horizontal";
 
@@ -51,18 +51,21 @@ const RecipeMain = ({ recipe }: Props) => {
         </div>
         <div className="w-3/4 p-2">
           <div className="flex flex-col items-center justify-start">
-            <h1 className="text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">
+            <h1 className="text-lg md:text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">
               {recipe.name}
             </h1>
-            <div className="flex items-center justify-center my-1">
-              <span>{recipe.category}</span>
-              <span> | </span>
-              <span>{recipe.prepTime} mins</span>
+            <div className="flex flex-col text-xs md:text-base items-center justify-center my-1">
+              <span className="flex items-center justify-around w-full">
+                <BsTag size={15} /> {recipe.category}
+              </span>
+              <span className="flex items-center justify-around w-full">
+                <BsClock size={15} /> {recipe.prepTime} mins
+              </span>
             </div>
             <ButtonAsLink location={`/recipe/${recipe.id}`}>
               Full Recipe
             </ButtonAsLink>
-            <div className="w-full flex items-center justify-end">
+            <div className="w-full flex items-center justify-center md:justify-end mt-2">
               {recipe.isFavorite ? (
                 <form onSubmit={(event) => handleFav(event)}>
                   <button type="submit">

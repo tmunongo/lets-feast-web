@@ -6,5 +6,5 @@ A recipe catalog web app
 
 - NextJS
 - Prisma
-- MongoDB
+- PostgreSQL
 - Cloudinary

@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
 import React, { FormEvent, useState } from "react";
+import Loading from "../Loading";
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
@@ -35,6 +36,7 @@ const RecipeForm = ({ recipe }: Props) => {
     image: recipe?.image || null,
     id: recipe?.id || "",
   });
+  const [loading, setLoading] = useState(false);
 
   // handle change for the ingredient fields
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,6 +138,7 @@ const RecipeForm = ({ recipe }: Props) => {
 
   // submission
   const handleSubmit = async (event: FormEvent) => {
+    setLoading(true);
     event.preventDefault();
     const formData = new FormData();
     formData.append("name", recipeValues.name);
@@ -162,156 +165,165 @@ const RecipeForm = ({ recipe }: Props) => {
       body: JSON.stringify(recipeContent),
       redirect: "manual",
     });
+    setLoading(false);
 
     if (response.status === 200) {
       Router.push("/");
     }
   };
   return (
-    <div className="min-h-screen flex justify-center w-full">
-      <div className="flex flex-col items-center justify-center h-2/3 w-full lg:w-3/4">
-        <h2 className="text-xl md:text-2xl mb-4">New Recipe</h2>
-        <form
-          onSubmit={(event) => handleSubmit(event)}
-          encType="multipart/form-data"
-          className="flex flex-col items-center md:items-start md:p-4"
-        >
-          <div className="md:flex md:items-center mb-4 w-[100%]">
-            <div className="md:w-1/3">
-              <label
-                htmlFor="name"
-                className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
-              >
-                Name
-              </label>
-            </div>
-            <div className="md:w-2/3">
-              <input
-                type="text"
-                name="name"
-                placeholder="Chicken Tika"
-                value={recipeValues.name}
-                className="rounded-md ml-2 p-1"
-                onChange={(event) => handleTextInput(event)}
-              />
-            </div>
-          </div>
-          <div
-            id="ingredient-section"
-            className="md:flex md:items-center mb-4 w-[100%]"
-          >
-            <div className="md:w-1/3">
-              <label
-                htmlFor="ingredients"
-                className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
-              >
-                Ingredients
-              </label>
-            </div>
-            <div className="md:w-2/3 flex flex-col items-start justify-start p-2">
-              {recipeValues.ingredients.map((value, index) => (
-                <p key={index} className="border rounded px-2 py-1 mb-2">
-                  - {value}
-                </p>
-              ))}
-              {inputList}
-              <div className="flex items-center justify-around w-3/4 mt-1 ">
-                <button
-                  type="button"
-                  onClick={onAddBtnClick}
-                  className="bg-button-light dark:bg-button-dark px-2 py-1 rounded"
-                >
-                  +
-                </button>
-                <button
-                  type="button"
-                  onClick={onRemoveBtnClick}
-                  className="bg-button-light dark:bg-button-dark px-2 py-1 rounded"
-                >
-                  -
-                </button>
+    <>
+      {!loading ? (
+        <div className="min-h-screen flex justify-center w-full">
+          <div className="flex flex-col items-center justify-center h-2/3 w-full lg:w-3/4">
+            <h2 className="text-xl md:text-2xl mb-4">New Recipe</h2>
+            <form
+              onSubmit={(event) => handleSubmit(event)}
+              encType="multipart/form-data"
+              className="flex flex-col items-center md:items-start md:p-4"
+            >
+              <div className="md:flex md:items-center mb-4 w-[100%]">
+                <div className="md:w-1/3">
+                  <label
+                    htmlFor="name"
+                    className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  >
+                    Name
+                  </label>
+                </div>
+                <div className="md:w-2/3">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Chicken Tika"
+                    value={recipeValues.name}
+                    className="rounded-md ml-2 p-1"
+                    onChange={(event) => handleTextInput(event)}
+                  />
+                </div>
               </div>
-              {inputList.length === 0 && (
-                <p className="mt-2">Click &apos;+&apos; to add a new textbox</p>
-              )}
-            </div>
-          </div>
-          <div className="md:flex md:items-center mb-4 w-[100%]">
-            <div className="md:w-1/3">
-              <label
-                htmlFor="prepTime"
-                className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
+              <div
+                id="ingredient-section"
+                className="md:flex md:items-center mb-4 w-[100%]"
               >
-                Prep Time
-              </label>
-            </div>
-            <div className="md:w-2/3">
-              <input
-                type="text"
-                name="prepTime"
-                placeholder="30 mins"
-                value={recipeValues.prepTime}
-                className="border-black border-2 rounded-xl ml-2 p-1"
-                onChange={(event) => handleTextInput(event)}
-              />
-            </div>
-          </div>
-          <div className="md:flex md:items-center mb-6 w-[100%]">
-            <div className="md:w-1/3">
-              <label
-                htmlFor="category"
-                className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
+                <div className="md:w-1/3">
+                  <label
+                    htmlFor="ingredients"
+                    className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  >
+                    Ingredients
+                  </label>
+                </div>
+                <div className="md:w-2/3 flex flex-col items-start justify-start p-2">
+                  {recipeValues.ingredients.map((value, index) => (
+                    <p key={index} className="border rounded px-2 py-1 mb-2">
+                      - {value}
+                    </p>
+                  ))}
+                  {inputList}
+                  <div className="flex items-center justify-around w-3/4 mt-1 ">
+                    <button
+                      type="button"
+                      onClick={onAddBtnClick}
+                      className="bg-button-light dark:bg-button-dark px-2 py-1 rounded"
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={onRemoveBtnClick}
+                      className="bg-button-light dark:bg-button-dark px-2 py-1 rounded"
+                    >
+                      -
+                    </button>
+                  </div>
+                  {inputList.length === 0 && (
+                    <p className="mt-2">
+                      Click &apos;+&apos; to add a new textbox
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="md:flex md:items-center mb-4 w-[100%]">
+                <div className="md:w-1/3">
+                  <label
+                    htmlFor="prepTime"
+                    className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  >
+                    Prep Time (in minutes)
+                  </label>
+                </div>
+                <div className="md:w-2/3">
+                  <input
+                    type="text"
+                    name="prepTime"
+                    placeholder="30 mins"
+                    value={recipeValues.prepTime}
+                    className="border-black border-2 rounded-xl ml-2 p-1"
+                    onChange={(event) => handleTextInput(event)}
+                  />
+                </div>
+              </div>
+              <div className="md:flex md:items-center mb-6 w-[100%]">
+                <div className="md:w-1/3">
+                  <label
+                    htmlFor="category"
+                    className="m-2 block font-bold md:text-right mb-1 md:mb-0 pr-4"
+                  >
+                    Category
+                  </label>
+                </div>
+                <div className="md:w-2/3">
+                  <input
+                    type="text"
+                    name="category"
+                    placeholder="Category"
+                    value={recipeValues.category}
+                    className="border-black border-2 rounded-xl p-1 ml-2"
+                    onChange={(event) => handleTextInput(event)}
+                  />
+                </div>
+              </div>
+              <div className="w-[100%]">
+                <div>
+                  <label
+                    htmlFor="directions"
+                    className="mb-2 tracking-wide block font-bold md:mb-0 pr-4 "
+                  >
+                    Directions
+                  </label>
+                </div>
+                <div>
+                  <SimpleMDE
+                    value={recipeValues.directions}
+                    onChange={(value = "") => handleMDInput(value)}
+                    className="md:p-2"
+                  />
+                </div>
+              </div>
+              <div className="w-full flex items-center justify-start overflow-hidden">
+                <input
+                  className="p-1 w-full"
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </div>
+              <input hidden type="text" name="type" defaultValue={formType} />
+              <button
+                className="bg-button-light dark:bg-button-dark p-1 md:p-2 rounded-md"
+                type="submit"
               >
-                Category
-              </label>
-            </div>
-            <div className="md:w-2/3">
-              <input
-                type="text"
-                name="category"
-                placeholder="Category"
-                value={recipeValues.category}
-                className="border-black border-2 rounded-xl p-1 ml-2"
-                onChange={(event) => handleTextInput(event)}
-              />
-            </div>
+                Save Recipe
+              </button>
+            </form>
           </div>
-          <div className="w-[100%]">
-            <div>
-              <label
-                htmlFor="directions"
-                className="mb-2 tracking-wide block font-bold md:mb-0 pr-4 "
-              >
-                Directions
-              </label>
-            </div>
-            <div>
-              <SimpleMDE
-                value={recipeValues.directions}
-                onChange={(value = "") => handleMDInput(value)}
-                className="md:p-2"
-              />
-            </div>
-          </div>
-          <div className="w-full flex items-center justify-start overflow-hidden">
-            <input
-              className="p-1 w-full"
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-          </div>
-          <input hidden type="text" name="type" defaultValue={formType} />
-          <button
-            className="bg-button-light dark:bg-button-dark p-1 md:p-2 rounded-md"
-            type="submit"
-          >
-            Save Recipe
-          </button>
-        </form>
-      </div>
-    </div>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 };
 

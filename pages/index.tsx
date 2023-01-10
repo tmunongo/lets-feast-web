@@ -66,7 +66,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await client.user.findUnique({
     where: { email: session.user.email! },
   });
-  let recipes = await client.recipe.findMany({
+  const recipes = await client.recipe.findMany({
     where: {
       authorId: user!.id,
     },
