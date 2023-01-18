@@ -24,13 +24,13 @@ const SecondarySideBar = ({ setNav }: Props) => {
   return (
     <>
       {nav ? (
-        <div className="absolute left-[18%] z-10 md:left-[21%] bg-bg-light-tertiary dark:bg-bg-dark-tertiary top-16 h-screen w-2/3 md:w-1/3 p-2 border-l-button-light dark:border-l-button-dark transition-all duration-500">
+        <div className="absolute left-[18%] z-20 md:left-[21%] bg-bg-light-tertiary dark:bg-bg-dark-tertiary top-16 h-screen w-2/3 md:w-1/3 p-2 border-l-button-light dark:border-l-button-dark transition-all duration-500">
           <ul>
             <div className="w-full flex items-center justify-center">
               <input
                 type="text"
-                className="border-y border-l border-black p-1 rounded-l-md"
-                placeholder={search}
+                className="border-y border-l border-black p-1 rounded-l-md w-4/5"
+                placeholder="Search..."
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
@@ -74,7 +74,7 @@ const SecondarySideBar = ({ setNav }: Props) => {
           </ul>
         </div>
       ) : (
-        <div className="absolute -left-full transition-all duration-500"></div>
+        <div className="absolute -left-full transition-all duration-500 h-screen"></div>
       )}
     </>
   );

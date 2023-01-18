@@ -25,7 +25,7 @@ const DeleteModal = ({ id, setIsOpen, isOpen }: Props) => {
   };
 
   return (
-    <div className="absolute w-4/5 sm:w-full md:w-1/2 lg:w-1/3 top-[40%] dark:bg-bg-light-primary bg-bg-dark-primary text-text-dark-primary dark:text-text-light-primary rounded-md p-2 md:p-8 border-black">
+    <div className="absolute w-4/5 sm:w-full md:w-1/2 lg:w-1/3 top-[40%] dark:bg-bg-light-primary bg-bg-dark-primary text-text-dark-primary dark:text-text-light-primary rounded-md p-2 md:p-8 border border-black shadow-lg">
       <p className="">
         Are you sure you want to delete this recipe? This action cannot be
         reversed.

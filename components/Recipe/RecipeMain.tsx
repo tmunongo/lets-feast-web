@@ -5,7 +5,6 @@ import Router from "next/router";
 import { FormEvent, useState } from "react";
 import { BsClock, BsHeart, BsHeartFill, BsTag } from "react-icons/bs";
 import ButtonAsLink from "../ButtonAsLink";
-import Horizontal from "../Dividers/Horizontal";
 
 type Props = {
   recipe: Recipe;
@@ -37,7 +36,7 @@ const RecipeMain = ({ recipe }: Props) => {
   };
   return (
     <>
-      <div className="flex items-center justify-around w-[90%] my-4 h-52 shadow-md p-2">
+      <div className="flex items-center justify-around w-[90%] my-4 h-44 md:h-52 shadow-md p-2">
         <div className="w-1/4 h-full">
           <div className="w-full h-full overflow-hidden flex items-center rounded-md">
             <Image
@@ -87,7 +86,6 @@ const RecipeMain = ({ recipe }: Props) => {
           </div>
         </div>
       </div>
-      <Horizontal />
     </>
   );
 };

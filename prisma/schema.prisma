@@ -62,27 +62,36 @@ model User {
 
 // recipe model
 model Recipe {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   ingredients String[]
   directions  String
   image       String
   category    String
   prepTime    Int
-  isFavorite  Boolean   @default(false)
-  author      User      @relation(fields: [authorId], references: [id])
+  isFavorite  Boolean  @default(false)
+  author      User     @relation(fields: [authorId], references: [id])
   authorId    String
-  plan        MealPlan? @relation(fields: [planId], references: [id])
-  planId      String?
+  Day         Day?     @relation(fields: [dayId], references: [id])
+  dayId       String?
 }
 
 // meal plan model
 model MealPlan {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  name      String
-  tag       String
-  recipes   Recipe[]
-  chef      User     @relation(fields: [chefId], references: [id])
-  chefId    String
+  id          String @id @default(uuid())
+  name        String
+  description String
+  tag         String
+  days        Day[]
+  chef        User   @relation(fields: [chefId], references: [id])
+  chefId      String
+}
+
+// day model
+model Day {
+  id         String    @id @default(uuid())
+  name       String
+  recipes    Recipe[]
+  MealPlan   MealPlan? @relation(fields: [mealPlanId], references: [id])
+  mealPlanId String?
 }

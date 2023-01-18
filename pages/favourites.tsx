@@ -1,9 +1,8 @@
 import { Recipe } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
-import { unstable_getServerSession } from "next-auth";
 import RecipeMain from "../components/Recipe/RecipeMain";
+import { getServerAuth } from "../lib/getServerAuth";
 import client from "../lib/prismadb";
-import { authOptions } from "./api/auth/[...nextauth]";
 
 type Props = {
   recipes: Recipe[];
@@ -28,23 +27,8 @@ const Favourites = ({ recipes }: Props) => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
-  if (!session || !session.user) {
-    return {
-      props: {
-        errorMessage: "You must be logged in",
-      },
-    };
-  }
-  const user = await client.user.findUnique({
-    where: {
-      email: session.user.email!,
-    },
-  });
+  const { user } = await getServerAuth(context);
+
   const recipes = await client.recipe.findMany({
     where: {
       authorId: user?.id,

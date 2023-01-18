@@ -22,19 +22,24 @@ export default async function handler(
   }
   switch (method) {
     case "POST": {
-      console.log("create");
+      // upload cover image to cloudinary
       let image = await Cloudinary.uploader.upload(body.image, {
         folder: "recipe-book/images",
         upload_preset: "recipe_book",
         public_id: `${body.name.toLowerCase()}-recipe`,
       });
-
+      // check author from database
       const author = await client.user.findUnique({
         where: {
           email: user.user.email,
         },
       });
-
+      if (!author) {
+        return res
+          .status(403)
+          .json({ message: "You are not authorised to create a new recipe." });
+      }
+      // create new recipe
       const newRecipe = await client.recipe.create({
         data: {
           name: body.name,
@@ -46,6 +51,7 @@ export default async function handler(
           ingredients: JSON.parse(body.ingredients),
         },
       });
+      // return success status
       res.status(200).json({ message: "Recipe has been successfully created" });
       break;
     }

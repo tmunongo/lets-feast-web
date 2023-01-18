@@ -1,5 +1,6 @@
 import { Recipe } from "@prisma/client";
 import Image from "next/image";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import ReactMarkdown from "react-markdown";
 import RecipeActions from "./RecipeActions";
 
@@ -15,7 +16,20 @@ const RecipeFull = ({ recipe }: Props) => {
         #{recipe.category}
       </span>
       <div className="relative w-full lg:w-3/4 h-[200px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-cover overflow-hidden rounded-md my-2">
+        <span className="absolute top-3 md:top-8 right-3 md:right-8 z-10">
+          {recipe.isFavorite ? (
+            <AiFillHeart size={30} />
+          ) : (
+            <AiOutlineHeart size={30} />
+          )}
+        </span>
         <Image src={recipe.image} alt={recipe.name} fill />
+        <span className="absolute bottom-3 left-3 z-10 rounded-lg bg-black text-white opacity-60 px-1">
+          {recipe.prepTime}mins <strong>&middot;</strong>{" "}
+          {recipe.ingredients.length > 1
+            ? `${recipe.ingredients.length} Ingredients`
+            : `${recipe.ingredients.length} Ingredient`}
+        </span>
       </div>
       <ul>
         <h3 className="text-lg font-bold underline">Ingredients</h3>

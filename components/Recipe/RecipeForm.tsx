@@ -13,7 +13,7 @@ type Props = {
   recipe?: Recipe;
 };
 
-interface RecipeData {
+type RecipeData = {
   name: string;
   ingredients: string[];
   directions: string;
@@ -21,7 +21,7 @@ interface RecipeData {
   prepTime: number;
   image: string | null;
   id: string | null;
-}
+};
 
 const RecipeForm = ({ recipe }: Props) => {
   const [formType, setFormType] = useState(recipe ? "edit" : "create");
@@ -64,7 +64,7 @@ const RecipeForm = ({ recipe }: Props) => {
       <input
         name="ingredients"
         type="text"
-        className="rounded-md my-1 p-1"
+        className="border-gray-400 border rounded-md my-1 p-1"
         placeholder="Ingredients"
         value={recipeValues.ingredients[ingredients.length]}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -176,7 +176,9 @@ const RecipeForm = ({ recipe }: Props) => {
       {!loading ? (
         <div className="min-h-screen flex justify-center w-full">
           <div className="flex flex-col items-center justify-center h-2/3 w-full lg:w-3/4">
-            <h2 className="text-xl md:text-2xl mb-4">New Recipe</h2>
+            <h2 className="text-xl md:text-2xl mb-4">
+              {!recipe ? "New" : "Update"} Recipe
+            </h2>
             <form
               onSubmit={(event) => handleSubmit(event)}
               encType="multipart/form-data"
@@ -195,9 +197,9 @@ const RecipeForm = ({ recipe }: Props) => {
                   <input
                     type="text"
                     name="name"
-                    placeholder="Chicken Tika"
+                    placeholder="Chicken Tikka"
                     value={recipeValues.name}
-                    className="rounded-md ml-2 p-1"
+                    className="border-gray-400 border rounded-xl ml-2 p-1"
                     onChange={(event) => handleTextInput(event)}
                   />
                 </div>
@@ -259,7 +261,7 @@ const RecipeForm = ({ recipe }: Props) => {
                     name="prepTime"
                     placeholder="30 mins"
                     value={recipeValues.prepTime}
-                    className="border-black border-2 rounded-xl ml-2 p-1"
+                    className="border-gray-400 border rounded-xl ml-2 p-1"
                     onChange={(event) => handleTextInput(event)}
                   />
                 </div>
@@ -277,9 +279,9 @@ const RecipeForm = ({ recipe }: Props) => {
                   <input
                     type="text"
                     name="category"
-                    placeholder="Category"
+                    placeholder="Dinner"
                     value={recipeValues.category}
-                    className="border-black border-2 rounded-xl p-1 ml-2"
+                    className="border-gray-400 border rounded-xl p-1 ml-2"
                     onChange={(event) => handleTextInput(event)}
                   />
                 </div>
@@ -301,7 +303,7 @@ const RecipeForm = ({ recipe }: Props) => {
                   />
                 </div>
               </div>
-              <div className="w-full flex items-center justify-start overflow-hidden">
+              <div className="w-full flex items-center justify-start overflow-hidden p-2 border border-gray-400 rounded-md mb-2">
                 <input
                   className="p-1 w-full"
                   type="file"
@@ -310,13 +312,15 @@ const RecipeForm = ({ recipe }: Props) => {
                   onChange={handleImageChange}
                 />
               </div>
-              <input hidden type="text" name="type" defaultValue={formType} />
-              <button
-                className="bg-button-light dark:bg-button-dark p-1 md:p-2 rounded-md"
-                type="submit"
-              >
-                Save Recipe
-              </button>
+              <div>
+                <input hidden type="text" name="type" defaultValue={formType} />
+                <button
+                  className="bg-button-light dark:bg-button-dark p-1 md:p-2 rounded-md"
+                  type="submit"
+                >
+                  Save Recipe
+                </button>
+              </div>
             </form>
           </div>
         </div>
