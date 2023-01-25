@@ -15,6 +15,7 @@ const RecipeListModal = ({ planId, recipes, isOpen, setIsOpen }: Props) => {
   const [selected, setIsSelected] = useState<boolean>(false);
   const [id, setId] = useState<string>();
   const [selectedDay, setSelectedDay] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
   // const [recipes, setRecipes] = useState<Recipe[] | null>();
 
   const handleSelectRecipe = (id: string) => {
@@ -23,20 +24,23 @@ const RecipeListModal = ({ planId, recipes, isOpen, setIsOpen }: Props) => {
   };
 
   const handleConfirm = async () => {
+    // set loading
+    setLoading(true);
     // day, planId, and recipeId
     const values = {
       day: selectedDay,
       planId: planId,
-      recipesId: id,
+      recipeId: id,
       chef: JSON.stringify(session),
     };
 
-    const response = await fetch("/api/mealplans", {
+    const response = await fetch("/api/mealplan", {
       method: "PUT",
       body: JSON.stringify(values),
       redirect: "manual",
     });
 
+    setLoading(false);
     if (response.status === 200) {
       Router.push("/mealplans");
     }
@@ -131,7 +135,12 @@ const RecipeListModal = ({ planId, recipes, isOpen, setIsOpen }: Props) => {
             <button className="bg-red-200 p-2" onClick={() => setIsOpen(false)}>
               Close
             </button>
-            <button className="bg-green-300 p-2">Confirm</button>
+            <button
+              className="bg-green-300 p-2"
+              onClick={() => handleConfirm()}
+            >
+              Confirm
+            </button>
           </div>
         </div>
       ) : (

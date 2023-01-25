@@ -77,7 +77,7 @@ export default async function handler(
       // update recipe
       const recipe = await client.recipe.update({
         where: {
-          id: body.recipe.id,
+          id: body.recipeId,
         },
         data: {
           dayId: day!.id,
