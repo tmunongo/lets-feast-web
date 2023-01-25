@@ -1,6 +1,5 @@
 import { Recipe } from "@prisma/client";
 import Image from "next/image";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ButtonAsLink from "../ButtonAsLink";
 import Horizontal from "../Dividers/Horizontal";
 
@@ -34,13 +33,6 @@ const SampleRecipeMain = ({ recipe }: Props) => {
               <span>{recipe.prepTime} mins</span>
             </div>
             <ButtonAsLink location={"/intro"}>Full Recipe</ButtonAsLink>
-            <div className="w-full flex items-center justify-end">
-              {recipe.isFavorite ? (
-                <BsHeartFill size={25} />
-              ) : (
-                <BsHeart size={25} />
-              )}
-            </div>
           </div>
         </div>
       </div>

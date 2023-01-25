@@ -7,7 +7,6 @@ type Props = {
 };
 
 const MealPlanListItem = ({ mealplan, setIsOpen }: Props) => {
-  console.log(mealplan);
   return (
     <div className="h-72 shadow-lg rounded-md p-2 flex flex-col items-center justify-around w-full hover:scale-105 transition-all duration-500">
       <p>{mealplan.name}</p>

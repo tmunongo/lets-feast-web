@@ -90,7 +90,7 @@ model MealPlan {
 // day model
 model Day {
   id         String    @id @default(uuid())
-  name       String
+  name       String    @unique
   recipes    Recipe[]
   MealPlan   MealPlan? @relation(fields: [mealPlanId], references: [id])
   mealPlanId String?

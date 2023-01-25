@@ -55,9 +55,36 @@ export default async function handler(
     }
 
     case "PUT": {
-      // make sure user is logged in
+      // find the user in the database
+      const dbUser = await client.user.findUnique({
+        where: { email: user.user.email },
+      });
       // find the meal plan and update
+      const mealPlan = await client.mealPlan.findUnique({
+        where: {
+          id: body.planId,
+        },
+        include: {
+          days: true,
+        },
+      });
+      // find the day
+      const day = await client.day.findUnique({
+        where: {
+          name: body.day,
+        },
+      });
+      // update recipe
+      const recipe = await client.recipe.update({
+        where: {
+          id: body.recipe.id,
+        },
+        data: {
+          dayId: day!.id,
+        },
+      });
       // return
+      return res.status(200).json({ recipe });
     }
   }
 }

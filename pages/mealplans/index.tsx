@@ -1,4 +1,4 @@
-import { MealPlan } from "@prisma/client";
+import { MealPlan, Recipe } from "@prisma/client";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -11,10 +11,12 @@ import client from "../../lib/prismadb";
 
 type Props = {
   mealplans: MealPlan[];
+  recipes: Recipe[];
 };
 
-const Index = ({ mealplans }: Props) => {
+const Index = ({ recipes, mealplans }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedPlan, setSelectedPlan] = useState<string>();
 
   return (
     <>
@@ -48,6 +50,7 @@ const Index = ({ mealplans }: Props) => {
                 <div
                   key={index}
                   className="flex flex-col items-center justify-start w-[90%] md:grid md:grid-cols-5 md:w-full"
+                  onClick={() => setSelectedPlan(item.id)}
                 >
                   <MealPlanListItem mealplan={item} setIsOpen={setIsOpen} />
                 </div>
@@ -55,7 +58,12 @@ const Index = ({ mealplans }: Props) => {
             })}
           </div>
         )}
-        <RecipeListModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <RecipeListModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          recipes={recipes}
+          planId={selectedPlan!}
+        />
       </div>
     </>
   );
@@ -87,9 +95,16 @@ export const getServerSideProps = async (
     },
   });
 
+  const recipes = await client.recipe.findMany({
+    where: {
+      authorId: user.id,
+    },
+  });
+
   return {
     props: {
       mealplans,
+      recipes,
     },
   };
 };
