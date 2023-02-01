@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Button from "../Button";
+import ButtonAsLink from "../ButtonAsLink";
 import Horizontal from "../Dividers/Horizontal";
 import SocialLogin from "./SocialLogin";
 
@@ -30,7 +30,7 @@ const Login = (props: Props) => {
             >
               Your Email
             </label>
-            <div className="relative mb-3">
+            {/* <div className="relative mb-3">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   className="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -48,11 +48,13 @@ const Login = (props: Props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@example.com"
               />
+            </div> */}
+            <div className="text-center">
+              <ButtonAsLink location="/api/auth/signin">Sign In</ButtonAsLink>
             </div>
-            <Button>Proceed with Email</Button>
             <p className="mt-2 mb-6 text-text-light-secondary dark:text-text-dark-secondary ">
-              This is magic link authentication. A link will be sent to your
-              email to log you in.
+              This is magic link authentication. After entering your email, a
+              link will be sent to you to log you in.
             </p>
             <div>
               <Horizontal />
