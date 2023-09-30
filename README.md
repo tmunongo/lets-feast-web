@@ -1,41 +1,43 @@
-Let's Feast Chef's Companion Web App Documentation
+# Let's Feast Chef's Companion Web App Documentation
 
-Table of Contents
-Introduction
-Stack
-Features
-Authentication
-Getting Started
-Usage
-Contributing
-License
+## Table of Contents
+- Introduction
+- Stack
+- Features
+- Authentication
+- Getting Started
+- Usage
+- Contributing
+- License
+
 1. Introduction <a name="introduction"></a>
 Welcome to the Let's Feast Web App documentation! This web application is designed to help users create, discover, and organize their favourite recipes. Whether you're a seasoned chef or just getting started in the kitchen, this app provides a user-friendly interface for managing your culinary creations.
 
 2. Stack <a name="stack"></a>
 The Recipe Cataloguing Web App is built using the following technologies:
 
-Next.js: A React framework for building fast and dynamic web applications.
+- Next.js: A React framework for building fast and dynamic web applications.
 
-Prisma: An open-source database toolkit for Node.js and TypeScript, used for database management.
+- Prisma: An open-source database toolkit for Node.js and TypeScript, used for database management.
 
-PostgreSQL: A powerful, open-source relational database management system.
+- PostgreSQL: A powerful, open-source relational database management system.
 
-Cloudinary: A cloud-based image and video management service for storing and serving media assets.
+- Cloudinary: A cloud-based image and video management service for storing and serving media assets.
 
 3. Features <a name="features"></a>
-Key Features
-Recipe Management
-Create, edit, and delete recipes.
-Add ingredients, instructions, and images to recipes.
-Categorize recipes by type (e.g., appetizers, main courses, desserts).
-Search for recipes by name, ingredients, or tags.
-Meal Planning
-Plan meals by selecting recipes for breakfast, lunch, dinner, and snacks.
-Generate shopping lists based on selected recipes.
-User Profiles
-User registration and authentication.
-User profiles with personalized recipe collections.
+### Key Features
+- Recipe Management
+- Create, edit, and delete recipes.
+- Add ingredients, instructions, and images to recipes.
+- Categorize recipes by type (e.g., appetizers, main courses, desserts).
+- Search for recipes by name, ingredients, or tags.
+- Meal Planning
+- Plan meals by selecting recipes for breakfast, lunch, dinner, and snacks.
+- Generate shopping lists based on selected recipes.
+- User Profiles
+- User registration and authentication.
+- User profiles with personalized recipe collections.
+
 4. Authentication <a name="authentication"></a>
 The Recipe Cataloguing Web App offers secure authentication using the following methods:
 
@@ -54,8 +56,8 @@ Install dependencies:
 
 ```bash
 npm install
-Set up your environment variables. Create a .env.local file in the root directory and configure the following variables:
 ```
+Set up your environment variables. Make a copy of the .env.example file as .env in the root directory and configure the following variables:
 
 ```env
 DATABASE_URL=postgresql://your_username:your_password@localhost:5432/your_database
@@ -65,12 +67,13 @@ Run database migrations:
 
 ```bash
 npx prisma migrate dev
-Start the development server:
 ```
 
+Start the development server:
 ```bash
 npm run dev
 ```
+
 Access the app in your web browser at http://localhost:3000.
 
 6. Usage <a name="usage"></a>
@@ -87,10 +90,11 @@ User Profile
 Access your user profile by clicking on your username in the navigation menu.
 View and edit your profile information.
 Browse and manage your saved recipes.
-7. Contributing <a name="contributing"></a>
+
+8. Contributing <a name="contributing"></a>
 Contributions to the Recipe Cataloguing Web App are welcome! If you would like to contribute, please follow our contribution guidelines.
 
-8. License <a name="license"></a>
+9. License <a name="license"></a>
 This project is licensed under the MIT License.
 
 Thank you for using the Recipe Cataloguing Web App! If you have any questions or encounter any issues, please don't hesitate to contact our support team. Happy cooking!
