@@ -91,10 +91,5 @@ Access your user profile by clicking on your username in the navigation menu.
 View and edit your profile information.
 Browse and manage your saved recipes.
 
-8. Contributing <a name="contributing"></a>
-Contributions to the Recipe Cataloguing Web App are welcome! If you would like to contribute, please follow our contribution guidelines.
-
 9. License <a name="license"></a>
 This project is licensed under the MIT License.
-
-Thank you for using the Recipe Cataloguing Web App! If you have any questions or encounter any issues, please don't hesitate to contact our support team. Happy cooking!
